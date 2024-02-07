@@ -126,7 +126,7 @@ const Landing = () => {
             <PostCard />
 
             {/* topic feed when user upload a post */}
-            <div className="friend-container border-[1px] border-neutral-500 bg-[#38363634] w-[85%] h-max mt-8 pt-4 rounded-tr-lg rounded-tl-lg">
+            <div className="friend-container border-[1px] border-neutral-500 bg-[#38363634] w-[85%] h-max mt-8 mb-4 pt-4 rounded-tr-lg rounded-tl-lg">
 
               {/* user pic , title , bookmark ,list*/}
               <div className="search-div-conrainer flex items-center justify-between mb-4 px-4 ">
