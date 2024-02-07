@@ -5,8 +5,8 @@ import SignIn from './Pages/Sign-In/SignIn';
 const App = () => {
   return (
     <>
-      {/* <Landing /> */}
-      <SignIn />
+      <Landing />
+      {/* <SignIn /> */}
     </>
   )
 }
