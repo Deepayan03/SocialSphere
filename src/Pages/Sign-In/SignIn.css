@@ -29,14 +29,12 @@
     font-size: 3vh;
     width: 10vw;
     height: 7vh;
-    border: 2px solid rgb(255, 255, 255);
+    border: 3px solid rgb(255, 255, 255, 0.362);
     transition: all .3s linear;
 }
 
 .submit-button:hover{
-    background-image: linear-gradient(90deg,rgb(239, 239, 115),rgb(143, 255, 199));
-    color: rgb(6, 46, 57);
-    border-color: black;
+    /* background-image: linear-gradient(90deg,rgb(99, 88, 161),rgb(121, 200, 234)); */
     transform: scale(1.1);
 }
 
