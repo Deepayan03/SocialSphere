@@ -1,0 +1,21 @@
+.body{
+    overflow: hidden;
+}
+
+.links-section .link-icon:hover{
+    background-color: #4f4d4d28;
+}
+
+.mouseMove{
+    transition: all .1s linear;
+}
+
+.form{
+    border: 2px solid #6f6868;
+
+}
+
+.submit-button:hover{
+    transition: all .3s linear;
+    background-color: rgb(94, 94, 255);
+}
