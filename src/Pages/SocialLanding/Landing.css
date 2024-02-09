@@ -1,0 +1,47 @@
+.pages-div .pages-wrapper .page-item:hover{
+    border: 2px solid #343943;
+    background-color: #25262cc4;
+    border-radius: 15px;
+    color: #2b86fe;
+}
+
+.community-div .community-wrapper .communites .community-icon{
+    background-image: url(../../assets/Icons/cat.jpg);
+    background-position: center;
+    background-size: cover;
+
+}
+
+.community-div .community-wrapper .communites {
+    color: #aab5cb;
+}
+
+.community-div .community-wrapper .communites:hover {
+    cursor: pointer;
+    color: #2a3345;
+}
+
+.main-right .main-r-top .explore-container .explore-item:hover{
+    background-color:#6d718975;
+    cursor: pointer;
+}
+
+.main-rb-right .friend-container .Fitem:hover{
+    cursor: pointer;
+    background-color: #404143;
+}
+
+.friend-container .icon-din-container .idright button:hover{
+    background-color: #44464a52;
+    
+}
+
+.bookmark:hover{
+    transition: all .3s linear;
+    transform: scale(1.2);
+}
+
+.list:hover{
+    transition: all .3s linear;
+    transform: scale(1.2);
+}
