@@ -5,6 +5,7 @@ import { VscEyeClosed } from "react-icons/vsc";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookSquare } from "react-icons/fa";
 import { FaApple } from "react-icons/fa";
+import { NavLink } from 'react-router-dom';
 
 import './LoginPage.css';
 
@@ -51,7 +52,7 @@ const LoginPage = () => {
 
                 <div className="sign-up-link w-full flex mb-4">
                     <h2 className='text-[#a7a2a28e] font-bold'>Don't have an account yet?</h2>
-                    <span className='text-white font-bold ml-2 '>Sign Up</span>
+                    <NavLink to="/signup" className={()=>("text-white font-bold ml-2 hover:text-blue-500")}>SignUp</NavLink>
                 </div>
 
                 {/* email section */}
