@@ -3,6 +3,7 @@ import ProfilePic from "./ProfilePic";
 import HomeIcon from "./HomeIcon";
 import { AiFillMessage } from "react-icons/ai";
 import { IoNotificationsSharp } from "react-icons/io5";
+import { Link, NavLink } from "react-router-dom";
 
 const Navbar = () => {
     return (
@@ -15,8 +16,13 @@ const Navbar = () => {
 
                     {/* Explore Section */}
                     <div className="explore-container ml-8 w-max h-[7vh] flex bg-[#3a3b446c] rounded-md">
-                        <div className="explore-item w-max h-[5vh] p-4 flex items-center justify-center m-2 rounded-md text-white"><h2>Explore</h2></div>
-                        <div className="explore-item w-max h-[5vh] p-4 flex items-center justify-center m-2 rounded-md text-white"><h2>Community feed</h2></div>
+
+                        {/* Sign up link*/}
+                        <NavLink to="/signup" className={()=>("explore-item w-max h-[5vh] p-4 flex items-center justify-center m-2 rounded-md text-white")}>Sign-Up</NavLink>
+
+                        {/* Sign in link*/}
+                        <Link to="/signin" className="explore-item w-max h-[5vh] p-4 flex items-center justify-center m-2 rounded-md text-white">Sign-In</Link>
+
                         <div className="explore-item w-max h-[5vh] p-4 flex items-center justify-center m-2 rounded-md text-white "><h2>Mutual friend </h2>
                             <p className='w-[5vh] h-[4vh] ml-[5px] flex items-center justify-center text-white rounded-[20px] bg-[#25262cc4]'>12</p>
                         </div>

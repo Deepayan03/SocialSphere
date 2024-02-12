@@ -1,0 +1,42 @@
+body{
+    
+    margin: auto;
+    position: relative;
+    
+}
+
+.left-part .lets-talk{
+    letter-spacing: 5px;
+    -webkit-text-stroke:3px white;
+}
+
+.triangle{
+    transform: rotate(-50deg);
+}
+
+.right-part form button{
+    letter-spacing: 2px;
+}
+
+.right-part form button:hover{
+    transform: scale(0.9);
+    transition: all .3s linear;
+}
+
+@media (max-width:770px) {
+    .left-part .feedback-title{
+        width: 100%;
+    }
+}
+
+@media (max-width:765px) {
+    .wrapper-body .triangle{
+        width: 20vh;
+    }
+}
+
+@media (max-width:420px) {
+    .wrapper-body .triangle{
+        width: 15vh;
+    }
+}
