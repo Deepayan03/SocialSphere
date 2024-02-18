@@ -19,6 +19,10 @@ export const register = catchAsyncError(async (req, res, next) => {
     return next(new errorHandler("User is already exist", 409));
   }
 
+  if (password.length < 6) {
+    return next(new errorHandler("Password must be at least 6 characters", 400, { details: "Password must be at least 6 characters" }));
+  }
+
   const userCreate = await User.create({
     name,
     email,
