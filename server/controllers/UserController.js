@@ -8,9 +8,11 @@ import getDataUri from "../utils/dataUri.js";
 // Registration Logic
 export const register = catchAsyncError(async (req, res, next) => {
   const { name, email, password } = req.body;
+  const file = req.file;
 
-  if (!name || !email || !password) {
-    return next(new errorHandler("Please add all fields", 400));
+
+  if (!name || !email || !password || !file) {
+    return next(new errorHandler("Oops! Looks like something's missing. Fill in all fields, please", 400));
   }
 
   const userExist = await User.findOne({ email: email });
@@ -18,6 +20,10 @@ export const register = catchAsyncError(async (req, res, next) => {
   if (userExist) {
     return next(new errorHandler("User is already exist", 409));
   }
+
+  const fileUri = getDataUri(file);
+
+  const myCloud = await cloudinary.v2.uploader.upload(fileUri.content);
 
   if (password.length < 6) {
     return next(new errorHandler("Password must be at least 6 characters", 400, { details: "Password must be at least 6 characters" }));
@@ -27,6 +33,10 @@ export const register = catchAsyncError(async (req, res, next) => {
     name,
     email,
     password,
+    avatar:{
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    },
   });
 
   sendToken(res, userCreate, "Registered Successfully", 201);
@@ -37,7 +47,7 @@ export const login = catchAsyncError(async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return next(new errorHandler("Please add all fields", 400));
+    return next(new errorHandler("Oops! Looks like something's missing. Fill in all fields, please", 400));
   }
 
   const user = await User.findOne({ email }).select("password");

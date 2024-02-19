@@ -14,7 +14,7 @@ import singleUpload from "../middlewares/multer.js";
 const router = new express.Router();
 
 // Register Route
-router.route("/register").post(register);
+router.route("/register").post(singleUpload,register);
 
 // Login Route
 router.route("/login").post(login);
