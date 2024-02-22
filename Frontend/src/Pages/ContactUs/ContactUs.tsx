@@ -1,43 +1,38 @@
+// Import CSS file
 import "./contactUs.css";
-import mailingPhoto from "../../assets/Icons/mailing.png";
 
+// Import image file
+import mailingPhoto from "../../assets/Icons/mailing.png";
+// Import React Icons
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebookSquare } from "react-icons/fa";
-import { FaApple } from "react-icons/fa";
+import { FaFacebookSquare, FaApple } from "react-icons/fa";
+
+// Import useState hook from React
 import { useState } from "react";
 
 const ContactUs = () => {
+  const mouseCircle: any = document.querySelector(".mouseMove");
+  const screen: any = document.getElementById("root");
 
-  const mouseCircle = document.querySelector(".mouseMove");
-  const screen = document.getElementById("root");
+  const [x, setX] = useState("");
+  const [y, setY] = useState("");
 
-  const [x, setX] = useState('');
-  const [y, setY] = useState('');
-
-  screen.addEventListener("mousemove", (e) => {
-      setX(e.x);
-      setY(e.y);
-      mouseCircle.style.top = y + "px";
-      mouseCircle.style.left = x + "px";
+  screen.addEventListener("mousemove", (e: any) => {
+    setX(e.x);
+    setY(e.y);
+    mouseCircle.style.top = y + "px";
+    mouseCircle.style.left = x + "px";
   });
-
 
   return (
     <div className="main-wrapper min-h-screen w-screen flex relative flex-col md:flex-row md:justify-center md:items-center  item-center justify-around px-4  bg-[#1f1e1e] text-white">
-
       <div className="mouseMove w-[4vh] h-[4vh] absolute rounded-[50%] bg-white mix-blend-difference"></div>
-
 
       {/* wrapper body */}
       <div className="wrapper-body md:w-auto overflow-hidden md:flex relative md:justify-center p-4 md:flex-row rounded-[15px]">
+        <div className="triangle bg-[#519bf0a3] w-[10vw] h-[50vh] absolute top-[-20vh] left-[5vh] rounded-[10vh]"></div>
 
-        <div className="triangle bg-[#519bf0a3] w-[10vw] h-[50vh] absolute top-[-20vh] left-[5vh] rounded-[10vh]">
-
-        </div>
-
-        <div className="triangle bg-[#9bacc7ed] w-[10vw] h-[50vh] absolute top-[-2vh] left-[-17vh] rounded-[10vh]">
-
-        </div>
+        <div className="triangle bg-[#9bacc7ed] w-[10vw] h-[50vh] absolute top-[-2vh] left-[-17vh] rounded-[10vh]"></div>
 
         {/* Left Part */}
         <div className="left-part flex gap-3 flex-col p-4 rounded-[15px] md:justify-center">
@@ -60,7 +55,6 @@ const ContactUs = () => {
         {/* right part */}
         <div className="right-part p-4 flex gap-5 flex-col rounded-[15px] bg-[#45444438] md:items-center md:justify-center ">
           <div className=" md:flex md:justify-center md:items-center">
-
             {/* form section */}
             <form className="flex flex-col font-mono gap-2">
               <label className="font-bold" htmlFor="username">
@@ -86,12 +80,10 @@ const ContactUs = () => {
               />
               <button
                 type="submit"
-                className="w-full h-[6vh] font-bold text-[20px] mt-2 bg-blue-700 rounded-lg "
-              >
+                className="w-full h-[6vh] font-bold text-[20px] mt-2 bg-blue-700 rounded-lg ">
                 Submit
               </button>
             </form>
-
           </div>
 
           {/* Links */}
@@ -103,13 +95,10 @@ const ContactUs = () => {
               <FaApple style={{ color: "white", fontSize: "4vh" }} />
             </div>
           </div>
-
         </div>
-
       </div>
-
     </div>
   );
-}
+};
 
 export default ContactUs;

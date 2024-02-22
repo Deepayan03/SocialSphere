@@ -7,44 +7,36 @@ import { FaFacebookSquare } from "react-icons/fa";
 import { FaApple } from "react-icons/fa";
 import { NavLink } from 'react-router-dom';
 
-const SignUp = () => {
+const SignUp:React.FC = () => {
 
   const [passStatus, setPassStatus] = useState(true);
   const [CpassStatus, setCPassStatus] = useState(true);
 
   const clickPassIcon = () => {
-    const status = document.querySelector("#userpassword");
-    setPassStatus(prev => !prev);
-    if (passStatus) {
-      status.type = "text";
-    } else {
-      status.type = "password";
+    const status: HTMLInputElement | null = document.querySelector<HTMLInputElement>("#userpassword");
+    setPassStatus((prev) => !prev);
+  
+    if (status) {
+      if (status.type === "password") {
+        status.type = "text";
+      } else {
+        status.type = "password";
+      }
     }
+  };
 
-  }
-
-  const clickCPassIcon = () => {
-    const status = document.querySelector("#userConformpassword");
-    setCPassStatus(prev => !prev);
-    if (CpassStatus) {
-      status.type = "text";
-    } else {
-      status.type = "password";
+const clickCPassIcon = () => {
+    const status: HTMLInputElement | null = document.querySelector<HTMLInputElement>("#userConfirmPassword");
+    setPassStatus((prev) => !prev);
+  
+    if (status) {
+      if (status.type === "password") {
+        status.type = "text";
+      } else {
+        status.type = "password";
+      }
     }
-  }
-
-  const mouseCircle = document.querySelector(".mouseMove");
-  const screen = document.getElementById("root");
-
-  const [x, setX] = useState('');
-  const [y, setY] = useState('');
-
-  screen.addEventListener("mousemove", (e) => {
-    setX(e.x);
-    setY(e.y);
-    mouseCircle.style.top = y + "px";
-    mouseCircle.style.left = x + "px";
-  });
+  };
 
 
   return (
@@ -83,10 +75,10 @@ const SignUp = () => {
 
         </div>
 
-        {/* Conform PasswordSection */}
+        {/* Confirm PasswordSection */}
         <div className="password w-full h-[6vh] mb-3 rounded-lg bg-[#2a2b2b] relative">
 
-          <input type="password" id="userConformpassword" placeholder='Enter password' className='h-full w-[97%] rounded-lg pl-4 font-bold bg-[#2a2b2b] text-white' />
+          <input type="password" id="userConfirmPassword" placeholder='Enter password' className='h-full w-[97%] rounded-lg pl-4 font-bold bg-[#2a2b2b] text-white' />
 
           {/* icon section */}
           {CpassStatus ?

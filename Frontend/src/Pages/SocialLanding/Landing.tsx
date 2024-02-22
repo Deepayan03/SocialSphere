@@ -22,8 +22,6 @@ import { PiShareBold } from "react-icons/pi";
 import { BiUpArrowAlt } from "react-icons/bi";
 // down arrow
 import { BiDownArrowAlt } from "react-icons/bi";
-
-// ========================import components=======================
 import HomeIcon from '../../Components/HomeIcon';
 import ProfilePic from '../../Components/ProfilePic';
 import PostCard from '../../Components/PostCard';
