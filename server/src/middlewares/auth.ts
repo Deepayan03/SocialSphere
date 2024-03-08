@@ -13,8 +13,8 @@ interface CustomJwtPayload extends JwtPayload {
 export const isAuthenticated = catchAsyncError(
   async (req: GetUser, res: Response, next: NextFunction) => {
     const { userToken } = req.cookies;
-    console.log("UserToken: ", userToken);
-    console.log(req.cookies)
+    // console.log("UserToken: ", userToken);
+    // console.log(req.cookies)
     if (!userToken) {
       return next(new ErrorHandler("Not logged in", 401));
     }

@@ -10,7 +10,7 @@ const getDataUri = (file: MulterFile): string => {
   const parser = new DataUriParser();
   const extName = path.extname(file.originalname);
 
-  console.log(extName);
+  // console.log(extName);
   const parsed: string | undefined = parser.format(
     extName,
     file.buffer
