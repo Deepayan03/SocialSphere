@@ -1,7 +1,8 @@
-import mongoose from "mongoose";
+import mongoose, { Model } from "mongoose";
 import validator from "validator";
 import jwt from "jsonwebtoken";
 import bcryptjs from "bcryptjs";
+import { User } from "../Interfaces/interfaces.js";
 
 
 const schema = new mongoose.Schema({
@@ -18,7 +19,7 @@ const schema = new mongoose.Schema({
   bio:{
     type: String,
     validate: {
-      validator: function(v) {
+      validator: function(v:string):boolean {
         const wordCount = v.trim().split(/\s+/).length;
         return wordCount <= 150;
       },
@@ -76,8 +77,9 @@ schema.methods.getJWTToken = function () {
   return userToken;
 };
 
-schema.methods.comparePassword = async function(password){
+schema.methods.comparePassword = async function(password:string):Promise<boolean>{
   console.log(this.password);
+  console.log(password);
   return await bcryptjs.compare(password, this.password);
 };
 
@@ -87,6 +89,6 @@ schema.methods.comparePassword = async function(password){
 
 
 
-const User = new mongoose.model("User", schema);
+const User: Model<any> = mongoose.model<any>('User', schema);
 
 export default User;

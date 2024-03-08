@@ -1,7 +1,6 @@
 import app from "./App.js";
-import { connectDB } from "./config/Database.js";
+import connectDB from "./config/Database.js";
 import cloudinary from "cloudinary";
-
 
 connectDB();
 

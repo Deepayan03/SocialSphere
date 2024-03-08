@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Router } from "express";
 import {
   changePassword,
   deleteMyProfile,
@@ -11,10 +11,10 @@ import {
 } from "../controllers/UserController.js";
 import { isAuthenticated } from "../middlewares/auth.js";
 import singleUpload from "../middlewares/multer.js";
-const router = new express.Router();
+const router: Router = express.Router();
 
 // Register Route
-router.route("/register").post(singleUpload,register);
+router.route("/register").post(singleUpload, register);
 
 // Login Route
 router.route("/login").post(login);

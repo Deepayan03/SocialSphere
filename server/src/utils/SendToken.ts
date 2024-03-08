@@ -1,7 +1,14 @@
-export const sendToken = (res, user, message, statusCode) => {
+import { Response } from "express";
+
+export const sendToken = (
+  res: Response,
+  user: any,
+  message: string,
+  statusCode: number
+) => {
   const userToken = user.getJWTToken();
 
-  const options = {
+  const options:any = {
     expires: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000),
     httpOnly: true,
     secure: true,
