@@ -1,8 +1,11 @@
 import ProfilePic from "./ProfilePic";
-import HomeIcon from "./HomeIcon";
+import Icon from "./Icon";
 import { AiFillMessage } from "react-icons/ai";
 import { IoNotificationsSharp } from "react-icons/io5";
 import { Link, NavLink } from "react-router-dom";
+import { login, signUp } from "../config/config";
+import { GoHomeFill } from "react-icons/go";
+
 
 const Navbar = () => {
   return (
@@ -11,21 +14,20 @@ const Navbar = () => {
       <div className="main-r-top h-[10%] w-full border-b-2 p-2 border-[#383636d1] flex items-center justify-between ">
         {/* navbar left side */}
         <div className="main-r-top-left flex w-[50%] h-max ">
-          <HomeIcon
-            item={{
-              fontSize: "35px",
-              textSize: "30px",
-              width: "10vw",
-              marginLeft: "10px",
-              iconColor: "white",
-            }}
+          <Icon
+             top="5px"
+             fontSize="50px"
+             paddingLeft="5px"
+             color="#2b86fe"
+             title="Home"
+             icon={GoHomeFill}
           />
 
           {/* Explore Section */}
           <div className="explore-container ml-8 w-max h-[7vh] flex bg-[#3a3b446c] rounded-md">
             {/* Sign up link*/}
             <NavLink
-              to="/signup"
+              to={signUp}
               className={() =>
                 "explore-item w-max h-[5vh] p-4 flex items-center justify-center m-2 rounded-md text-white"
               }>
@@ -34,7 +36,7 @@ const Navbar = () => {
 
             {/* Sign in link*/}
             <Link
-              to="/signin"
+              to={login}
               className="explore-item w-max h-[5vh] p-4 flex items-center justify-center m-2 rounded-md text-white">
               Sign-In
             </Link>
