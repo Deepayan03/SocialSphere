@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { RiEye2Line } from "react-icons/ri";
 import { VscEyeClosed } from "react-icons/vsc";
 import { FcGoogle } from "react-icons/fc";
@@ -7,9 +7,14 @@ import { FaApple } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 import "./LoginPage.css";
+import { useSelector } from "react-redux";
+import { RootReducerType } from "../../reducers/ComboReducers";
 
 const LoginPage = () => {
   const [passStatus, setPassStatus] = useState<boolean>(true);
+
+  const [userEmail, setUserEmail] = useState<string>("");
+  const [passWord, setPassword] = useState<string>("");
 
   const clickPassIcon = () => {
     const status: HTMLInputElement | null = document.querySelector<HTMLInputElement>("#userpassword");
@@ -23,6 +28,25 @@ const LoginPage = () => {
       }
     }
   };
+
+  const users = useSelector((state:RootReducerType) => state.UserSlice.users);
+
+  const loginFormHandler = (e:FormEvent<HTMLFormElement>) =>{
+    e.preventDefault();
+    
+    const emailExists = users.some(user => user.userEmail === userEmail);
+    const passwordCorrect = users.some(user => user.userPassword === passWord);
+
+    if(emailExists && passwordCorrect){
+      alert("Login SuccessFull...")
+    }else{
+      alert("Incorrect Value Provided...");
+    }
+    
+    setUserEmail("");
+    setPassword("");
+
+  }
   
 
   return (
@@ -30,7 +54,7 @@ const LoginPage = () => {
       <div className="mouseMove w-[4vh] h-[4vh] absolute rounded-[50%] bg-white mix-blend-difference"></div>
 
       {/* Form Section */}
-      <form className="form p-[5vh] flex-col flex items-center w-auto h-auto rounded-[15px] bg-[#36343434;] ">
+      <form className="form p-[5vh] flex-col flex items-center w-auto h-auto rounded-[15px] bg-[#36343434;] " onSubmit={loginFormHandler}>
         <h1 className="heading text-center text-3xl font-bold text-white mb-2">
           Welcome back
         </h1>
@@ -48,6 +72,8 @@ const LoginPage = () => {
 
         {/* email section */}
         <input
+        value={userEmail}
+        onChange={e => setUserEmail(e.target.value)}
           type="email"
           id="useremail"
           placeholder="Enter Useremail..."
@@ -57,6 +83,8 @@ const LoginPage = () => {
         {/* PasswordSection */}
         <div className="password w-full h-[6vh] mb-3 rounded-lg bg-[#2a2b2b] relative">
           <input
+          value={passWord}
+          onChange={e => setPassword(e.target.value)}
             type="password"
             id="userpassword"
             placeholder="Enter password..."

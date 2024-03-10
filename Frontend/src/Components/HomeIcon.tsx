@@ -2,12 +2,6 @@ import { useState } from "react";
 import { GoHomeFill } from "react-icons/go";
 
 const HomeIcon:React.FC<any> = ({ item }) => {
-//   const [iconSize, setIconSize] = useState(item.fontSize);
-//   const [textSize, setTextSize] = useState(item.textSize);
-//   const [width, setWidth] = useState(item.width);
-//   const [paddingLeft, setPaddingLeft] = useState(item.paddingLeft);
-//   const [marginLeft, setMarginLeft] = useState(item.marginLeft);
-//   const [iconColor, setIconColor] = useState(item.iconColor);
 
   return (
     <div
