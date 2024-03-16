@@ -13,7 +13,10 @@ import {
 } from "../Interfaces/interfaces.js";
 // Registration Logic
 export const register = catchAsyncError(
+  
+  
   async (req: RegistrationRequest, res: Response, next: NextFunction) => {
+    console.log(req.body);
     const { name, email, password } = req.body;
     const file = req.file;
 

@@ -1,5 +1,52 @@
 import { Request } from "express";
-import { Document } from "mongoose";
+import mongoose , { Document } from "mongoose";
+
+interface ItextContent {
+  text : string;
+}
+
+interface Imediacontent {
+  media : {
+    secure_url : string;
+    public_id : string;
+  }
+  
+}
+
+type IPostContent = ItextContent | Imediacontent;
+
+interface IPost extends Document {
+  postedBy : mongoose.Schema.Types.ObjectId;
+  caption? : string;
+  contentType : "MEDIA" | "TEXT";
+  postContent : IPostContent;
+  visibility : boolean; 
+}
+
+interface IcreatePostRequest extends Request {
+  body: {
+    text?: string;
+    caption?:string;
+
+  };
+  user: {
+    _id: string;
+  };
+  file?: any;
+}
+
+interface IparticularPost extends Request {
+  body : {
+    text? : string;
+    caption? : string;
+  };
+  params : {
+    id : string;
+  };
+  user: {
+    _id: string;
+  };
+}
 
 interface User extends Document {
   name: string;
@@ -80,5 +127,10 @@ export {
   ChangePasswordRequest,
   ProfilePictureUpdateResponse,
   ProfilePictureUpdateRequest,
-  RequestWithFile
+  RequestWithFile,
+  IPostContent,
+  IPost,
+  IcreatePostRequest,
+  IparticularPost,
+  Imediacontent,
 };
