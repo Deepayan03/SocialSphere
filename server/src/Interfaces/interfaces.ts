@@ -27,7 +27,6 @@ interface IcreatePostRequest extends Request {
   body: {
     text?: string;
     caption?:string;
-
   };
   user: {
     _id: string;

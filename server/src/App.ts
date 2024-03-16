@@ -22,6 +22,8 @@ app.use(cookieParser());
 
 // Implementing Routes
 app.use("/api/user", UserRouter);
+
+// post route
 app.use("/api/post", PostRouter);
 
 export default app;
