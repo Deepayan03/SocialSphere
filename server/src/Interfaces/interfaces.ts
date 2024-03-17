@@ -47,6 +47,21 @@ interface IparticularPost extends Request {
   };
 }
 
+interface Ilike extends Document {
+  likedBy : mongoose.Schema.Types.ObjectId;
+  postId : mongoose.Schema.Types.ObjectId;
+  likedAt : Date;
+}
+
+interface IlikeRequestData extends Request {
+  params : {
+    postId : string;
+  };
+  user: {
+    _id: string;
+  };
+}
+
 interface User extends Document {
   name: string;
   email: string;
@@ -132,4 +147,6 @@ export {
   IcreatePostRequest,
   IparticularPost,
   Imediacontent,
+  Ilike,
+  IlikeRequestData,
 };

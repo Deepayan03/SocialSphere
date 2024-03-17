@@ -2,6 +2,7 @@ import express from "express";
 import { config } from "dotenv";
 import UserRouter from "./routes/UserRoutes.js";
 import PostRouter from "./routes/PostRoutes.js";
+import LikeRouter from "./routes/LikeRoutes.js";
 import errorMiddleware from "./middlewares/Error.js";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
@@ -25,6 +26,9 @@ app.use("/api/user", UserRouter);
 
 // post route
 app.use("/api/post", PostRouter);
+
+// like route
+app.use("/api/like", LikeRouter);
 
 export default app;
 

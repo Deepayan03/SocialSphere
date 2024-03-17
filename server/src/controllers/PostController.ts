@@ -9,6 +9,7 @@ import errorHandler from "../utils/ErrorHandler.js";
 import  getDataUri  from "../utils/dataUri.js"
 import cloudinary from "cloudinary";
 import { Post } from "models/Post.js";
+import mongoose from "mongoose";
 
 
 // creating post
@@ -159,10 +160,58 @@ export const getParticularUserPosts = catchAsyncError(
     async(req:IparticularPost,res:Response,next:NextFunction)=>{
 
         const { id } = req.params;
+        const userId = req.user._id;
 
         try {
-            const posts = await Post.find({postedBy:id}).sort({ createdAt: -1 });
-            
+
+            const posts = await Post.aggregate(
+                [
+                   {
+                        $match:{
+                            postedBy:new mongoose.Types.ObjectId(id),
+                        },
+                   },
+                   {
+                        $lookup:{
+                            from : "likes",
+                            localField : "_id",
+                            foreignField:"postId",
+                            as : "likes"
+                        }
+                   },
+                   {
+                        $addFields : {
+                            totalLikes : {$size : "$likes"},
+                            isLiked : {
+                                $cond : {
+                                    if : {
+                                        $in : [new mongoose.Types.ObjectId(userId),"$likes.likedBy"]
+                                    },
+                                    then : true,
+                                    else : false
+                                }
+                            }
+                        }
+                   },
+                   {
+                        $project : {
+                            _id : 1,
+                            postedBy: 1,
+                            caption: 1,
+                            contentType: 1,
+                            postContent: 1,
+                            visibility: 1,
+                            totalLikes : 1,
+                            isLiked : 1,
+
+                        }
+                   },
+                   {
+                        $sort : { createdAt : -1}
+                   },
+                ]
+            )
+                                  
             res.status(200).json({
                 success: true,
                 message: "All posts fetched Successfully",
@@ -183,8 +232,51 @@ export const getUserPosts = catchAsyncError(
         const userId = req.user._id;
 
         try {
-            
-            const posts = await Post.find({postedBy:userId}).sort({ createdAt: -1 });
+
+             const posts = await Post.aggregate([
+                {
+                    $match: {
+                        postedBy: new mongoose.Types.ObjectId(userId),
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "likes",
+                        localField: "_id",
+                        foreignField: "postId",
+                        as: "likes",
+                    }
+                },
+                {
+                    $addFields : {
+                        totalLikes : {
+                                        $size : "$likes",
+                                     },
+                        isLiked : {
+                                    $cond : {
+                                                if : {$in:[new mongoose.Types.ObjectId(userId),"$likes.likedBy"]},
+                                                then : true,
+                                                else : false
+                                            }
+                                  }             
+                    }
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        postedBy: 1,
+                        caption: 1,
+                        contentType: 1,
+                        postContent: 1,
+                        visibility: 1,
+                        totalLikes : 1,
+                        isLiked : 1,
+                    }
+                },
+                {
+                    $sort: { createdAt: -1 }
+                },
+            ]);
             
             res.status(200).json({
                 success: true,
