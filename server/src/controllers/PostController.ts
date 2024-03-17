@@ -9,6 +9,7 @@ import errorHandler from "../utils/ErrorHandler.js";
 import  getDataUri  from "../utils/dataUri.js"
 import cloudinary from "cloudinary";
 import { Post } from "models/Post.js";
+import { IPost } from "Interfaces/interfaces.js";
 import mongoose from "mongoose";
 
 
@@ -32,13 +33,13 @@ export const createPost = catchAsyncError(
         
             if (file) {
                 const fileUri: string = getDataUri(file);
-                const myCloud = await cloudinary.v2.uploader.upload(fileUri, { folder: userId });   
+                const myCloud : cloudinary.UploadApiResponse = await cloudinary.v2.uploader.upload(fileUri, { folder: userId });   
                 postContent = { media: { secure_url: myCloud.secure_url, public_id: myCloud.public_id } };
             }else{
                 postContent = {text : text};
             }
 
-            const post = await Post.create({
+            const post : IPost = await Post.create({
                 postedBy : userId,
                 caption,
                 contentType,
@@ -71,7 +72,7 @@ export const updatePost = catchAsyncError(
 
         try {
 
-            const post = await Post.findById(id);
+            const post :IPost = await Post.findById(id);
 
             if(post.contentType != "MEDIA"){
                 if(text){
@@ -84,7 +85,7 @@ export const updatePost = catchAsyncError(
             }
             
             await post.save();
-            const updatedPost = await Post.findById(id);
+            const updatedPost:IPost = await Post.findById(id);
             
             res.status(200).json({
                 success: true,
@@ -107,7 +108,7 @@ export const deleteParticularPost = catchAsyncError(
         const { id } = req.params;
 
         try {
-            const post = await Post.findById(id);
+            const post:IPost = await Post.findById(id);
 
             if(post.contentType == "MEDIA"){
                 const mediaContent = post.postContent as Imediacontent;
@@ -155,7 +156,7 @@ export const deleteAllUserPosts = catchAsyncError(
     }
 )
 
-// fetch all post of a particular user
+// fetch all post of a particular user  with posted user partial details 
 export const getParticularUserPosts = catchAsyncError(
     async(req:IparticularPost,res:Response,next:NextFunction)=>{
 
@@ -164,7 +165,7 @@ export const getParticularUserPosts = catchAsyncError(
 
         try {
 
-            const posts = await Post.aggregate(
+            const posts:IPost[] = await Post.aggregate(
                 [
                    {
                         $match:{
@@ -180,7 +181,31 @@ export const getParticularUserPosts = catchAsyncError(
                         }
                    },
                    {
+                        $lookup:{
+                            from : "users",
+                            localField : "postedBy",
+                            foreignField : "_id",
+                            as : "user"
+                        }
+                   },
+                   {
                         $addFields : {
+                            userDetails : {
+                                $arrayElemAt : [
+                                    {
+                                        $map : {
+                                            input : "$user",
+                                            as : "user",
+                                            in : {
+                                                _id : "$$user._id",
+                                                avatar : "$$user.avatar",
+                                                name : "$$user.name",
+                                            }
+                                        }
+                                    }
+                                    ,0
+                                ]
+                            },
                             totalLikes : {$size : "$likes"},
                             isLiked : {
                                 $cond : {
@@ -203,6 +228,7 @@ export const getParticularUserPosts = catchAsyncError(
                             visibility: 1,
                             totalLikes : 1,
                             isLiked : 1,
+                            userDetails : 1,
 
                         }
                    },
@@ -225,7 +251,7 @@ export const getParticularUserPosts = catchAsyncError(
     }
 )
 
-// fetch login user all post
+// fetch login user all post with posted user partial details
 export const getUserPosts = catchAsyncError(
     async(req:IparticularPost,res:Response,next:NextFunction)=>{
 
@@ -233,7 +259,7 @@ export const getUserPosts = catchAsyncError(
 
         try {
 
-             const posts = await Post.aggregate([
+             const posts:IPost[] = await Post.aggregate([
                 {
                     $match: {
                         postedBy: new mongoose.Types.ObjectId(userId),
@@ -248,7 +274,31 @@ export const getUserPosts = catchAsyncError(
                     }
                 },
                 {
+                    $lookup:{
+                        from : "users",
+                        localField : "postedBy",
+                        foreignField : "_id",
+                        as : "user"
+                    }
+                },
+                {
                     $addFields : {
+                        userDetails : {
+                            $arrayElemAt : [
+                                {
+                                    $map : {
+                                        input : "$user",
+                                        as : "user",
+                                        in : {
+                                            _id : "$$user._id",
+                                            avatar : "$$user.avatar",
+                                            name : "$$user.name",
+                                        }
+                                    }
+                                }
+                                ,0
+                            ]
+                            },
                         totalLikes : {
                                         $size : "$likes",
                                      },
@@ -271,6 +321,7 @@ export const getUserPosts = catchAsyncError(
                         visibility: 1,
                         totalLikes : 1,
                         isLiked : 1,
+                        userDetails:1,
                     }
                 },
                 {

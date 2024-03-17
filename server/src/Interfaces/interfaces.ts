@@ -51,6 +51,7 @@ interface Ilike extends Document {
   likedBy : mongoose.Schema.Types.ObjectId;
   postId : mongoose.Schema.Types.ObjectId;
   likedAt : Date;
+  _id : mongoose.Schema.Types.ObjectId;
 }
 
 interface IlikeRequestData extends Request {
