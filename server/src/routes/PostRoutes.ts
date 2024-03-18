@@ -3,6 +3,7 @@ import {
      createPost,
      deleteAllUserPosts,
      deleteParticularPost, 
+     getAllFollowingUsersPost, 
      getParticularUserPosts, 
      getUserPosts, 
      updatePost, 
@@ -29,6 +30,9 @@ router.route("/get/:id").get(isAuthenticated,getParticularUserPosts);
 
 // get all posts of  user - route
 router.route("/my-posts").get(isAuthenticated,getUserPosts);
+
+// get all following users posts  - route
+router.route("/following-posts").get(isAuthenticated,getAllFollowingUsersPost);
 
 
 export default router;

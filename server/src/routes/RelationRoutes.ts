@@ -8,7 +8,7 @@ import { fetchAllFollowers,
 const router = Router();
 
 // handle follow - if user followed then simply unfollow otherwise make user followed
-router.route("/handle-folow/:profileId").post(isAuthenticated,handleFollow);
+router.route("/handle-follow/:profileId").post(isAuthenticated,handleFollow);
 
 // fetched all followers of login user
 router.route("/get-followers").get(isAuthenticated,fetchAllFollowers);

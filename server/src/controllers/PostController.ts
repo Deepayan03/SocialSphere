@@ -11,6 +11,7 @@ import cloudinary from "cloudinary";
 import { Post } from "models/Post.js";
 import { IPost } from "Interfaces/interfaces.js";
 import mongoose from "mongoose";
+import { Relation } from "models/Relation.js";
 
 
 // creating post
@@ -332,6 +333,78 @@ export const getUserPosts = catchAsyncError(
             res.status(200).json({
                 success: true,
                 message: "All user posts fetched Successfully",
+                data : posts,
+            });
+
+        } catch (error) {
+            console.log(error.message);
+            next(error);
+        }
+    }
+)
+
+// fetch all following posts with posted user partial details
+export const getAllFollowingUsersPost = catchAsyncError(
+    async(req:IparticularPost,res:Response,next:NextFunction)=>{
+
+        const userId = req.user._id;
+
+        try {
+
+             const posts:IPost[] = await Relation.aggregate([
+                {
+                    $match: {
+                        followerId : new mongoose.Types.ObjectId(userId),
+                    }
+                },
+                {
+                    $lookup : {
+                        from : "posts",
+                        localField : "followingId",
+                        foreignField : "postedBy",
+                        as : "posts",
+                        pipeline : [
+                            {
+                                $lookup:{
+                                    from : "users",
+                                    localField : "postedBy",
+                                    foreignField : "_id",
+                                    as : "owner",
+                                    pipeline : [
+                                       {
+                                        $project : {
+                                            _id : 1,
+                                            name : 1,
+                                            avatar : 1
+                                        }
+                                       }
+                                    ]
+                                },
+                                
+                            },
+                            {
+                                $addFields : {
+                                    owner : {
+                                        $first : "$owner"
+                                    }
+                                }
+                            }
+                           
+                        ]
+                    }
+                },
+                {
+                    $unwind : "$posts"
+                },
+                {
+                    $replaceRoot: { newRoot: "$posts" }
+                }
+ 
+            ]);
+            
+            res.status(200).json({
+                success: true,
+                message: "All following user posts fetched Successfully",
                 data : posts,
             });
 
