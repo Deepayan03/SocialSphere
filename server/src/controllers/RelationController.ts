@@ -9,7 +9,7 @@ import { Relation } from "models/Relation.js";
 import mongoose from "mongoose";
 
 
-// handle following . if user already followed then it will simply unfollowed unless it will make follow
+//  if user already followed then it will simply unfollowed unless it will make follow
 export const handleFollow = catchAsyncError(
     async (req:IRelationRequest,res:Response,next:NextFunction)=>{
 
@@ -21,7 +21,7 @@ export const handleFollow = catchAsyncError(
                 next ( new ErrorHandler("not having any  folowingId",402));
             }
 
-            const alreadyFollowed: IRelation = await Relation.findOne({followerId:myId,followingId:followingId});
+            const alreadyFollowed: IRelation = await Relation.findOne({followerId:myId,followingId:profileId});
             
             if(alreadyFollowed){
                 
@@ -112,7 +112,7 @@ export const fetchAllFollowingUsers = catchAsyncError(
         
 
         try {
-            const allFollowers = await Relation.aggregate(
+            const allFollowingUsers = await Relation.aggregate(
                 [
                     {
                         $match: {
@@ -142,8 +142,8 @@ export const fetchAllFollowingUsers = catchAsyncError(
 
             res.status(200).json({
                 success : true,
-                message : "successfully fetched all followers",
-                data : allFollowers,
+                message : "successfully fetched all following Users",
+                data : allFollowingUsers,
             })
         } catch (error) {
             console.log(error.message);
