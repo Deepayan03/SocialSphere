@@ -70,7 +70,7 @@ interface IRelation extends Document {
 
 interface IRelationRequest extends Request {
   params : {
-    followingId : string;
+    profileId : string;
   };
   user : {
     _id : string;
