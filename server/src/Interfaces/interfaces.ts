@@ -63,6 +63,20 @@ interface IlikeRequestData extends Request {
   };
 }
 
+interface IRelation extends Document {
+  followerId : mongoose.Schema.Types.ObjectId;
+  followingId : mongoose.Schema.Types.ObjectId;
+}
+
+interface IRelationRequest extends Request {
+  params : {
+    followingId : string;
+  };
+  user : {
+    _id : string;
+  };
+}
+
 interface User extends Document {
   name: string;
   email: string;
@@ -150,4 +164,6 @@ export {
   Imediacontent,
   Ilike,
   IlikeRequestData,
+  IRelation,
+  IRelationRequest,
 };
