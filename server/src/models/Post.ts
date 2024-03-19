@@ -3,10 +3,12 @@ import { IPostContent, IPost } from "Interfaces/interfaces.js";
 
 
 const postContentSchema:Schema<IPostContent> = new Schema ({
-    media : {
-        public_id : String,
-        secure_url : String
-    },
+    media : [
+        {
+            public_id : String,
+            secure_url : String
+        },
+    ] ,
     text : String
 });
 

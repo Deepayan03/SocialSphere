@@ -19,23 +19,40 @@ export const createPost = catchAsyncError(
     async (req:IcreatePostRequest,res:Response,next:NextFunction)=>{
         
         let postContent:null | IPostContent = null;
-        const file = req.file;
+        const files = req.files;
         const text = req.body.text;
         const userId = req.user._id;
-        const contentType = file?"MEDIA":"TEXT";
+        const contentType = files.length?"MEDIA":"TEXT";
         const caption = req.body.caption?req.body.caption:"";
 
         // return error if file and text both not found
-        if(!file && !text){
+        if(!files.length && !text){
             return next(new errorHandler("Can not post an empty Post, please",400));
+        }
+
+        // return error if there are more than three files
+        if(files.length && files.length > 3){
+            return next(new errorHandler("please upload less than 3 files",400));
         }
 
         try {
         
-            if (file) {
-                const fileUri: string = getDataUri(file);
-                const myCloud : cloudinary.UploadApiResponse = await cloudinary.v2.uploader.upload(fileUri, { folder: userId });   
-                postContent = { media: { secure_url: myCloud.secure_url, public_id: myCloud.public_id } };
+            if (files.length) {
+
+                const fileContentArray : IPostContent | any = [];
+
+                const manageFile = async()=>{
+
+                     for( let file of files){
+                        const fileUri: string = getDataUri(file);
+                        const myCloud : cloudinary.UploadApiResponse = await cloudinary.v2.uploader.upload(fileUri, { folder: userId });   
+                        fileContentArray.push({ secure_url: myCloud.secure_url, public_id: myCloud.public_id });
+                    }
+                }
+
+                await manageFile();
+                postContent = {media : fileContentArray};
+                
             }else{
                 postContent = {text : text};
             }
@@ -56,7 +73,7 @@ export const createPost = catchAsyncError(
             });
 
         } catch (error) {
-            console.log(error.message);
+            console.log("errror : ",error.message);
             next(error);
         }
                 
@@ -112,10 +129,18 @@ export const deleteParticularPost = catchAsyncError(
             const post:IPost = await Post.findById(id);
 
             if(post.contentType == "MEDIA"){
-                const mediaContent = post.postContent as Imediacontent;
-                const public_id = mediaContent.media.public_id;
-                
-                await cloudinary.v2.uploader.destroy(public_id);   
+
+                const destroyFileFromCloudinary = async ()=>{
+
+                    const mediaContents:IPostContent  = post.postContent as Imediacontent;
+                    const contents = mediaContents.media;
+                    for ( const content of contents){
+                        await cloudinary.v2.uploader.destroy(content.public_id);
+                    }
+
+                }
+
+                 await destroyFileFromCloudinary();
          
             }
 

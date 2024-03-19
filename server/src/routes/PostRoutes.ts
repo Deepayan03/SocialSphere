@@ -9,12 +9,12 @@ import {
      updatePost, 
     } from "../controllers/PostController.js";
 import { isAuthenticated } from "../middlewares/auth.js";
-import singleUpload from "../middlewares/multer.js";
+import  { multipleUpload } from "../middlewares/multer.js";
 
 const router: Router = Router();
 
 // add post - route
-router.route("/create").post(isAuthenticated,singleUpload,createPost);
+router.route("/create").post(isAuthenticated,multipleUpload,createPost);
 
 // update post - route
 router.route("/update/:id").patch(isAuthenticated,updatePost);

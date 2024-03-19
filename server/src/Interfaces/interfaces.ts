@@ -6,10 +6,12 @@ interface ItextContent {
 }
 
 interface Imediacontent {
-  media : {
-    secure_url : string;
-    public_id : string;
-  }
+  media : [ 
+    {
+      secure_url : string;
+      public_id : string;
+    }
+  ];
   
 }
 
@@ -31,7 +33,7 @@ interface IcreatePostRequest extends Request {
   user: {
     _id: string;
   };
-  file?: any;
+  files?: any;
 }
 
 interface IparticularPost extends Request {
