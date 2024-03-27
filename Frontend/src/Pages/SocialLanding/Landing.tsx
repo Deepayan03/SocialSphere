@@ -129,6 +129,7 @@ const Landing = () => {
 
             {/* Feed component. Mane ekta holo puro container somet upload data. */}
             <Feed />
+            <Feed />
           </div>
 
           {/* content right bar */}
