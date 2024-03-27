@@ -17,6 +17,8 @@ import { BiUpArrowAlt } from "react-icons/bi";
 // down arrow
 import { BiDownArrowAlt } from "react-icons/bi";
 import ProfileWithSearch from "./ProfileWithSearch";
+import CommentsCard from "./CommentsCard";
+import Comments from "./Comments";
 
 const Feed = () => {
   return (
@@ -83,7 +85,8 @@ const Feed = () => {
         </div>
 
         {/* Profile with search component */}
-        <ProfileWithSearch props={{ placeholder: "write your comments..." }} />
+        <CommentsCard props={{ placeHolder: "write your comments..." }} />
+        <Comments />
       </div>
     </>
   );
