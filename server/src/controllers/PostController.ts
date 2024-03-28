@@ -6,12 +6,13 @@ import { IPostContent,
         Imediacontent 
        } from "Interfaces/interfaces.js"
 import errorHandler from "../utils/ErrorHandler.js";
-import  getDataUri  from "../utils/dataUri.js"
+import  getDataUri , {MulterFile}  from "../utils/dataUri.js"
 import cloudinary from "cloudinary";
 import { Post } from "models/Post.js";
 import { IPost } from "Interfaces/interfaces.js";
 import mongoose from "mongoose";
 import { Relation } from "models/Relation.js";
+import { any } from "webidl-conversions";
 
 
 // creating post
@@ -41,14 +42,26 @@ export const createPost = catchAsyncError(
 
                 const fileContentArray : IPostContent | any = [];
 
-                const manageFile = async()=>{
+                const uploadPostFile = async(fileUri:string)=>{
 
-                     for( let file of files){
-                        const fileUri: string = getDataUri(file);
-                        const myCloud : cloudinary.UploadApiResponse = await cloudinary.v2.uploader.upload(fileUri, { folder: userId });   
+                    try {
+                        const myCloud : cloudinary.UploadApiResponse = await cloudinary.v2.uploader.upload(fileUri, { folder: userId });                      
                         fileContentArray.push({ secure_url: myCloud.secure_url, public_id: myCloud.public_id });
+                    } catch (error) {
+                        return next(new errorHandler("file not uploaded due to internal error | clodinary error",500));
                     }
                 }
+
+                const manageFile = async () => {
+
+                    const uploadPromises = files.map((file:MulterFile) => {
+                        const fileUri: string = getDataUri(file);
+                        return uploadPostFile(fileUri);
+                    });
+
+                    await Promise.all(uploadPromises);
+            
+                };
 
                 await manageFile();
                 postContent = {media : fileContentArray};
@@ -63,8 +76,6 @@ export const createPost = catchAsyncError(
                 contentType,
                 postContent
             });
-            
-            await post.save();
             
             res.status(200).json({
                 success: true,

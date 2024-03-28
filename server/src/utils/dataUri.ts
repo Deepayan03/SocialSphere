@@ -1,7 +1,7 @@
 import DataUriParser from "datauri/parser.js";
 import path from "path";
 
-type MulterFile = {
+export type MulterFile = {
   originalname: string;
   buffer: Buffer;
 };

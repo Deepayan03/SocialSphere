@@ -17,10 +17,7 @@ export const handleFollow = catchAsyncError(
         const { profileId } = req.params;
         
           try {
-            if ( !profileId ){
-                next ( new ErrorHandler("not having any  folowingId",402));
-            }
-
+           
             const alreadyFollowed: IRelation = await Relation.findOne({followerId:myId,followingId:profileId});
             
             if(alreadyFollowed){
@@ -37,8 +34,6 @@ export const handleFollow = catchAsyncError(
                     followerId : myId, // this will be as follower
                     followingId : profileId, // this will be the followed Id 
             })
-
-            await following.save();
         
             return res.status(200).json({
                 success : true,

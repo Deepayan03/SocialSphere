@@ -13,9 +13,6 @@ export const handleLIke = catchAsyncError (
         const postId = req.params.postId;
         
         try {
-            if ( !postId ){
-                next ( new ErrorHandler("not having particular post",401));
-            }
 
             const existUserLike: Ilike[] = await Like.find({likedBy:userId,postId:postId});
             
@@ -33,8 +30,6 @@ export const handleLIke = catchAsyncError (
                     likedBy : userId,
                     postId : postId,
             })
-
-            await like.save();
         
             return res.status(200).json({
                 success : true,
