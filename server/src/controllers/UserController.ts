@@ -13,7 +13,10 @@ import {
 } from "../Interfaces/interfaces.js";
 // Registration Logic
 export const register = catchAsyncError(
+  
+  
   async (req: RegistrationRequest, res: Response, next: NextFunction) => {
+    console.log(req.body);
     const { name, email, password } = req.body;
     const file = req.file;
 
@@ -65,6 +68,7 @@ export const register = catchAsyncError(
 export const login = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
+    
 
     if (!email || !password) {
       return next(

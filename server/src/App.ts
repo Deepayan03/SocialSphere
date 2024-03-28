@@ -1,6 +1,9 @@
 import express from "express";
 import { config } from "dotenv";
 import UserRouter from "./routes/UserRoutes.js";
+import PostRouter from "./routes/PostRoutes.js";
+import LikeRouter from "./routes/LikeRoutes.js";
+import RelationRouter from "./routes/RelationRoutes.js"
 import errorMiddleware from "./middlewares/Error.js";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
@@ -21,6 +24,15 @@ app.use(cookieParser());
 
 // Implementing Routes
 app.use("/api/user", UserRouter);
+
+// post route
+app.use("/api/post", PostRouter);
+
+// like route
+app.use("/api/like", LikeRouter);
+
+// relation route
+app.use("/api/relation", RelationRouter);
 
 export default app;
 

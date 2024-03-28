@@ -1,5 +1,83 @@
 import { Request } from "express";
-import { Document } from "mongoose";
+import mongoose , { Document } from "mongoose";
+
+interface ItextContent {
+  text : string;
+}
+
+interface Imediacontent {
+  media : [ 
+    {
+      secure_url : string;
+      public_id : string;
+    }
+  ];
+  
+}
+
+type IPostContent = ItextContent | Imediacontent;
+
+interface IPost extends Document {
+  postedBy : mongoose.Schema.Types.ObjectId;
+  caption? : string;
+  contentType : "MEDIA" | "TEXT";
+  postContent : IPostContent;
+  visibility : boolean; 
+}
+
+interface IcreatePostRequest extends Request {
+  body: {
+    text?: string;
+    caption?:string;
+  };
+  user: {
+    _id: string;
+  };
+  files?: any;
+}
+
+interface IparticularPost extends Request {
+  body : {
+    text? : string;
+    caption? : string;
+  };
+  params : {
+    id : string;
+  };
+  user: {
+    _id: string;
+  };
+}
+
+interface Ilike extends Document {
+  likedBy : mongoose.Schema.Types.ObjectId;
+  postId : mongoose.Schema.Types.ObjectId;
+  likedAt : Date;
+  _id : mongoose.Schema.Types.ObjectId;
+}
+
+interface IlikeRequestData extends Request {
+  params : {
+    postId : string;
+  };
+  user: {
+    _id: string;
+  };
+}
+
+interface IRelation extends Document {
+  followerId : mongoose.Schema.Types.ObjectId;
+  followingId : mongoose.Schema.Types.ObjectId;
+}
+
+interface IRelationRequest extends Request {
+  params : {
+    profileId : string;
+  };
+  user : {
+    _id : string;
+  };
+}
 
 interface User extends Document {
   name: string;
@@ -80,5 +158,14 @@ export {
   ChangePasswordRequest,
   ProfilePictureUpdateResponse,
   ProfilePictureUpdateRequest,
-  RequestWithFile
+  RequestWithFile,
+  IPostContent,
+  IPost,
+  IcreatePostRequest,
+  IparticularPost,
+  Imediacontent,
+  Ilike,
+  IlikeRequestData,
+  IRelation,
+  IRelationRequest,
 };
